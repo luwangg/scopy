@@ -259,3 +259,14 @@ QGroupBox::title {
 	subcontrol-origin: margin;
 	subcontrol-position: top left; /* position at the top center */
 }
+
+QGroupBox::indicator {
+	width: 14px;
+	height: 14px;
+	border: 2px solid #4a64ff;
+	border-radius: 4px;
+}
+
+QGroupBox::indicator:checked {
+	background-color: #4a64ff;
+}

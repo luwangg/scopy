@@ -248,8 +248,6 @@ HardwareTrigger::mode TriggerSettings::determineTriggerMode(bool intern_checked,
 
 void TriggerSettings::ui_reconf_on_intern_toggled(bool checked)
 {
-	ui->analog_controls->setEnabled(checked);
-
 	bool analog_and_ext = checked && ui->extern_en->isChecked();
 	ui->lbl_analog_extern->setEnabled(analog_and_ext);
 	ui->cmb_analog_extern->setEnabled(analog_and_ext);
@@ -257,8 +255,6 @@ void TriggerSettings::ui_reconf_on_intern_toggled(bool checked)
 
 void TriggerSettings::ui_reconf_on_extern_toggled(bool checked)
 {
-	ui->digital_controls->setEnabled(checked);
-
 	bool analog_and_ext = checked && ui->intern_en->isChecked();
 	ui->lbl_analog_extern->setEnabled(analog_and_ext);
 	ui->cmb_analog_extern->setEnabled(analog_and_ext);
