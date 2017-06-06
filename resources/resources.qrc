@@ -120,4 +120,10 @@
         <file>stylesheets/customSwitch.qss</file>
         <file>stylesheets/smallOnOffSwitch.qss</file>
     </qresource>
+    <qresource prefix="/fonts">
+        <file>fonts/DejaVuSans.ttf</file>
+        <file>fonts/DejaVuSans-Bold.ttf</file>
+        <file>fonts/DejaVuSansMono.ttf</file>
+        <file>fonts/DejaVuSansMono-Bold.ttf</file>
+    </qresource>
 </RCC>

@@ -18,6 +18,7 @@
  */
 
 #include <QApplication>
+#include <QFontDatabase>
 #include <QCommandLineParser>
 #include <QSettings>
 #include <QtGlobal>
@@ -30,6 +31,13 @@ using namespace adiscope;
 int main(int argc, char **argv)
 {
 	QApplication app(argc, argv);
+
+	/* Load fonts */
+	QFontDatabase::addApplicationFont(":/fonts/fonts/DejaVuSans.ttf");
+	QFontDatabase::addApplicationFont(":/fonts/fonts/DejaVuSans-Bold.ttf");
+	QFontDatabase::addApplicationFont(":/fonts/fonts/DejaVuSansMono.ttf");
+	QFontDatabase::addApplicationFont(":/fonts/fonts/DejaVuSansMono-Bold.ttf");
+	app.setFont(QFont("DejaVu Sans"));
 
 	if (app.styleSheet().isEmpty()) {
 		QFile file(":/stylesheets/stylesheets/global.qss");
