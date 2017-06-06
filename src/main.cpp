@@ -37,7 +37,10 @@ int main(int argc, char **argv)
 	QFontDatabase::addApplicationFont(":/fonts/fonts/DejaVuSans-Bold.ttf");
 	QFontDatabase::addApplicationFont(":/fonts/fonts/DejaVuSansMono.ttf");
 	QFontDatabase::addApplicationFont(":/fonts/fonts/DejaVuSansMono-Bold.ttf");
-	app.setFont(QFont("DejaVu Sans"));
+
+	QFont font("DejaVu Sans");
+	font.setStyleStrategy(QFont::PreferAntialias);
+	app.setFont(font);
 
 	if (app.styleSheet().isEmpty()) {
 		QFile file(":/stylesheets/stylesheets/global.qss");
