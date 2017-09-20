@@ -23,9 +23,9 @@
 #include <QList>
 #include <QString>
 #include <memory>
+#include "crossingdetection.h"
 
 namespace adiscope {
-	class CrossingDetection;
 
 	class MeasurementData
 	{
