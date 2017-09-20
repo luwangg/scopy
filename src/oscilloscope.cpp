@@ -514,6 +514,8 @@ Oscilloscope::Oscilloscope(struct iio_context *ctx, Filter *filt,
 	for (int i = 0; i < nb_channels; i++)
 		plot.setPeriodDetectHyst(i, 1.0 / 5);
 
+	xy_plot.set_hyst_span(1.0 / 5);
+
 	// Calculate initial sample count and sample rate
 	onHorizScaleValueChanged(timeBase->value());
 	onTimePositionChanged(timePosition->value());
@@ -1245,8 +1247,10 @@ void Oscilloscope::onTriggerLevelChanged(double value)
 {
 	int trigger_chn = trigger_settings.currentChannel();
 
-	if (trigger_chn > -1)
+	if (trigger_chn > -1){
 		plot.setPeriodDetectLevel(trigger_chn, value);
+		xy_plot.set_cross_lvl(value);
+	}
 }
 
 void Oscilloscope::comboBoxUpdateToValue(QComboBox *box, double value, std::vector<double>list)
@@ -1429,6 +1433,7 @@ void adiscope::Oscilloscope::onVertScaleValueChanged(double value)
 
 	// Send scale information to the measure object
 	plot.setPeriodDetectHyst(current_channel, value / 5);
+	xy_plot.set_hyst_span(value / 5);
 
 	QLabel *label = static_cast<QLabel *>(
 			ui->chn_scales->itemAt(current_channel)->widget());
@@ -1574,7 +1579,6 @@ void adiscope::Oscilloscope::onTimePositionChanged(double value)
 		plot.setSampleRate(active_sample_rate, 1, "");
 		plot.setBufferSizeLabelValue(active_sample_count);
 		plot.setSampleRatelabelValue(active_sample_rate);
-
 		last_set_sample_count = active_sample_count;
 
 		adc->setSampleRate(active_sample_rate);

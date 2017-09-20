@@ -29,6 +29,7 @@
 
 #include "DisplayPlot.h"
 #include "spectrumUpdateEvents.h"
+#include "xy_plot_filter.h"
 
 namespace adiscope {
 /*!
@@ -62,6 +63,11 @@ public:
 		double ymin, double ymax);
   void set_pen_size(int size);
 
+  void set_hyst_span(double value);
+  double get_hyst_span();
+  void set_cross_lvl(double value);
+  double get_cross_lvl();
+
 public Q_SLOTS:
   void setAutoScale(bool state);
 
@@ -75,6 +81,11 @@ private:
 
   std::vector<double*> d_real_data;
   std::vector<double*> d_imag_data;
+
+  double d_hyst_span;
+  double d_cross_lvl;
+
+  XYPlotFilter *d_filter;
 
   int64_t d_pen_size;
 };

@@ -65,7 +65,9 @@ protected:
 };
 
 ConstellationDisplayPlot::ConstellationDisplayPlot(int nplots, QWidget* parent)
-  : DisplayPlot(nplots, parent)
+  : DisplayPlot(nplots, parent),
+    d_cross_lvl(0),
+    d_hyst_span(0)
 {
   resize(parent->width(), parent->height());
 
@@ -120,6 +122,8 @@ ConstellationDisplayPlot::ConstellationDisplayPlot(int nplots, QWidget* parent)
     d_plot_curve[i]->setSymbol(symbol);
 #endif
 
+    d_filter = new XYPlotFilter();
+
     setLineStyle(i, Qt::NoPen);
     setLineMarker(i, QwtSymbol::Ellipse);
   }
@@ -131,6 +135,8 @@ ConstellationDisplayPlot::~ConstellationDisplayPlot()
     delete [] d_real_data[i];
     delete [] d_imag_data[i];
   }
+
+  delete d_filter;
 
   // d_plot_curves deleted when parent deleted
   // d_zoomer and d_panner deleted when parent deleted
@@ -166,6 +172,30 @@ ConstellationDisplayPlot::set_pen_size(int size)
                                    Qt::RoundCap, Qt::RoundJoin));
     }
   }
+}
+
+void
+ConstellationDisplayPlot::set_hyst_span(double value)
+{
+	d_hyst_span = value;
+}
+
+double
+ConstellationDisplayPlot::get_hyst_span()
+{
+	return d_hyst_span;
+}
+
+void
+ConstellationDisplayPlot::set_cross_lvl(double value)
+{
+	d_cross_lvl = value;
+}
+
+double
+ConstellationDisplayPlot::get_cross_lvl()
+{
+	return d_cross_lvl;
 }
 
 void
@@ -249,6 +279,11 @@ ConstellationDisplayPlot::newData(const QEvent* updateEvent)
   const std::vector<double*> realDataPoints = tevent->getRealPoints();
   const std::vector<double*> imagDataPoints = tevent->getImagPoints();
   const uint64_t numDataPoints = tevent->getNumDataPoints();
+
+  d_filter->prepareFilter(d_cross_lvl, d_hyst_span);
+  d_filter->filter(realDataPoints[0],
+		  imagDataPoints[0],
+		  numDataPoints);
 
   this->plotNewData(realDataPoints,
 			 imagDataPoints,
