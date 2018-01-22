@@ -35,14 +35,14 @@ brew pip cheetah
 
 # Build dependencies
 cd ${WORKDIR}
-rm volk-1.3.tar.gz*
+rm -rf volk-1.3*
 if [ ! -d volk-1.3 ]; then
   wget http://libvolk.org/releases/volk-1.3.tar.gz
   tar -xzf volk-1.3.tar.gz
   cd volk-1.3
   mkdir build && cd build
   cmake ..
-  make >/dev/null
+  make
 else
   cd volk-1.3/build
 fi
