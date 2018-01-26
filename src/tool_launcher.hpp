@@ -31,6 +31,7 @@
 #include <QMap>
 #include <QStringList>
 #include <info_widget.h>
+#include <QTextBrowser>
 
 #include "apiObject.hpp"
 #include "dmm.hpp"
@@ -195,6 +196,9 @@ private:
 	QList<QString> getOrder();
 	void setOrder(QList<QString> list);
 
+	QTextBrowser *welcome;
+	QTextBrowser *index;
+
 	void updateListOfDevices(const QVector<QString>& uris);
 	void generateMenu();
 	QStringList tools;
@@ -203,6 +207,7 @@ private:
 	void insertMenuOptions();
 	void closeEvent(QCloseEvent *event);
 	void highlightDevice(QPushButton *btn);
+	void setupHomepage();
 };
 
 class ToolLauncher_API: public ApiObject

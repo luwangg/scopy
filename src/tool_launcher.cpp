@@ -43,6 +43,7 @@
 #include <QStringList>
 #include <QFileDialog>
 #include <QFile>
+#include <QDir>
 
 #include <iio.h>
 
@@ -211,6 +212,8 @@ ToolLauncher::ToolLauncher(QWidget *parent) :
 
 	connect(ui->saveBtn, &QPushButton::clicked, this, &ToolLauncher::saveSession);
 	connect(ui->loadBtn, &QPushButton::clicked, this, &ToolLauncher::loadSession);
+
+	setupHomepage();
 }
 
 void ToolLauncher::saveSession()
@@ -585,6 +588,40 @@ void ToolLauncher::highlightDevice(QPushButton *btn)
 	QTimer::singleShot(800, [=](){
 		setDynamicProperty(btn, "checked", initialBtnState);
 	});
+}
+
+void ToolLauncher::setupHomepage()
+{
+	// Welcome page
+	welcome = new QTextBrowser(ui->stackedWidget);
+	welcome->setFrameShape(QFrame::NoFrame);
+	welcome->setOpenExternalLinks(true);
+	welcome->setSource(QUrl("qrc:/scopy.html"));
+	ui->stackedWidget->addWidget(welcome);
+
+	// Index page
+	index = new QTextBrowser(ui->stackedWidget);
+	index->setFrameShape(QFrame::NoFrame);
+
+	if (!QDir("Landing").exists()) {
+		QDir().mkdir("Landing");
+	}
+
+	QFileInfo fileInfo(QDir("Landing"), "index.html");
+	if (!fileInfo.exists()) {
+			std::ofstream out (fileInfo.filePath().toStdString());
+	} else {
+		QFile indexFile(fileInfo.filePath());
+		indexFile.open(QFile::ReadOnly);
+		if (!indexFile.readAll().isEmpty()) {
+			index->setSearchPaths(QStringList(fileInfo.dir().absolutePath()));
+			indexFile.close();
+			index->setSource(QUrl(fileInfo.filePath()));
+			ui->stackedWidget->addWidget(index);
+		} else {
+			indexFile.close();
+		}
+	}
 }
 
 void ToolLauncher::swapMenu(QWidget *menu)
